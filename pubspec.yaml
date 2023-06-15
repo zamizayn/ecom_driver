@@ -1,0 +1,116 @@
+name: emartdriver
+description: A new Flutter application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.2+2
+
+environment:
+  sdk: ">=2.13.4 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.1.1
+  firebase_core: ^2.13.1
+  cloud_functions: ^4.3.2
+  firebase_auth: ^4.6.2
+  cloud_firestore: ^4.8.0
+  firebase_storage: ^11.2.2
+  firebase_messaging: ^14.6.2
+  flutter_local_notifications: ^14.1.1
+  flutter_facebook_auth: ^5.0.11
+  geoflutterfire2: ^2.3.15
+  geolocator: ^9.0.2
+  geocoding: ^2.1.0
+
+  image_picker: ^0.8.7+5
+  progress_dialog_null_safe: ^1.0.7
+  provider: ^6.0.5
+  url_launcher: ^6.1.11
+  intl: ^0.17.0
+  cached_network_image: ^3.2.3
+  uuid: ^3.0.7
+  video_thumbnail: ^0.5.3
+  path_provider: ^2.0.15
+  photo_view: ^0.14.0
+  video_player: ^2.6.1
+  http: any
+  smooth_page_indicator: ^1.1.0
+  intl_phone_number_input: ^0.7.3+1
+  pin_code_fields: ^7.4.0
+  permission_handler: ^10.2.0
+  easy_localization: ^3.0.2
+  google_maps_flutter: ^2.2.8
+  flutter_polyline_points: ^1.0.0
+  cupertino_icons: ^1.0.5
+  flutter_native_image: ^0.0.6+1
+  flutter_sound: ^9.2.13
+  the_apple_sign_in: ^1.1.1
+  video_compress: ^3.1.2
+  location: ^4.4.0
+  flutter_otp_text_field: ^1.1.1
+  audioplayers: ^4.1.0
+  flutter_rating_bar: ^4.0.1
+  flutter_widget_from_html: any
+  flutterflow_paginate_firestore: ^1.0.3+1
+  razorpay_flutter: ^1.3.5
+  flutter_stripe: ^9.2.0
+  mercadopago_sdk: ^1.3.0
+  flutter_braintree: ^3.0.0
+  paytm_allinonesdk: ^1.2.1
+  flutterwave_standard: ^1.0.7
+
+dependency_overrides:
+  webview_flutter: ^4.2.1
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/app_logo.png
+  image_dark: assets/images/app_logo.png
+
+  android_12:
+    image: assets/images/app_logo.png
+    image_dark: assets/images/app_logo.png
+
+  web: false
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/translations/
+    - assets/fonts/
+    - assets/flags/
+    - assets/audio/
+
+  fonts:
+    - family: Poppinsb
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
+    - family: Poppinsl
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+
+    - family: Poppinsm
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+
+    - family: Poppinsr
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    
+    - family: Poppinssb
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
