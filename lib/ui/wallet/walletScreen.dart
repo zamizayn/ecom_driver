@@ -38,7 +38,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+// import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../constants.dart';
 import '../../main.dart';
@@ -292,15 +292,15 @@ class WalletScreenState extends State<WalletScreen> {
     getPaymentSettingData();
     selectedRadioTile = "Stripe";
 
-    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
-    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    // _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    // _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
+    // _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     // TODO: implement initState
     super.initState();
   }
 
   Stream<QuerySnapshot>? topupHistoryQuery;
-  Razorpay _razorPay = Razorpay();
+  // Razorpay _razorPay = Razorpay();
   RazorPayModel? razorPayData;
   StripeSettingData? stripeData;
   PaytmSettingData? paytmSettingData;
@@ -1619,7 +1619,7 @@ class WalletScreenState extends State<WalletScreen> {
     };
 
     try {
-      _razorPay.open(options);
+     // _razorPay.open(options);
     } catch (e) {
       debugPrint('error'.tr() + ': $e');
     }
@@ -2209,45 +2209,45 @@ class WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    FireStoreUtils.createPaymentId().then((value) {
-      final paymentID = value;
-      FireStoreUtils.topUpWalletAmount(paymentMethod: "RazorPay", amount: double.parse(_amountController.text), id: paymentID, userID: MyAppState.currentUser!.userID).then((value) {
-        FireStoreUtils.updateWalletAmount(userId: userId, amount: double.parse(_amountController.text)).then((value) {
-          Navigator.pop(context);
-        });
-      });
-    });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        "Payment Successful!!".tr() + "\n" + response.orderId!,
-      ),
-      backgroundColor: Colors.green.shade400,
-      duration: Duration(seconds: 6),
-    ));
-  }
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  //   FireStoreUtils.createPaymentId().then((value) {
+  //     final paymentID = value;
+  //     FireStoreUtils.topUpWalletAmount(paymentMethod: "RazorPay", amount: double.parse(_amountController.text), id: paymentID, userID: MyAppState.currentUser!.userID).then((value) {
+  //       FireStoreUtils.updateWalletAmount(userId: userId, amount: double.parse(_amountController.text)).then((value) {
+  //         Navigator.pop(context);
+  //       });
+  //     });
+  //   });
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(
+  //       "Payment Successful!!".tr() + "\n" + response.orderId!,
+  //     ),
+  //     backgroundColor: Colors.green.shade400,
+  //     duration: Duration(seconds: 6),
+  //   ));
+  // }
 
-  void _handleExternalWaller(ExternalWalletResponse response) {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        "Payment Processing Via".tr() + "\n" + response.walletName!,
-      ),
-      backgroundColor: Colors.blue.shade400,
-      duration: Duration(seconds: 8),
-    ));
-  }
+  // void _handleExternalWaller(ExternalWalletResponse response) {
+  //   Navigator.pop(context);
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(
+  //       "Payment Processing Via".tr() + "\n" + response.walletName!,
+  //     ),
+  //     backgroundColor: Colors.blue.shade400,
+  //     duration: Duration(seconds: 8),
+  //   ));
+  // }
 
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        "Payment Failed!!".tr() + "\n" + jsonDecode(response.message!)['error']['description'],
-      ),
-      backgroundColor: Colors.red.shade400,
-      duration: Duration(seconds: 8),
-    ));
-  }
+  // void _handlePaymentError(PaymentFailureResponse response) {
+  //   Navigator.pop(context);
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(
+  //       "Payment Failed!!".tr() + "\n" + jsonDecode(response.message!)['error']['description'],
+  //     ),
+  //     backgroundColor: Colors.red.shade400,
+  //     duration: Duration(seconds: 8),
+  //   ));
+  // }
 
   withdrawAmountBottomSheet(BuildContext context) {
     return showModalBottomSheet(

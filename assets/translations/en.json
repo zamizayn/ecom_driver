@@ -26,7 +26,7 @@
   "You are offline": "You are offline",
   "Go online in order to start getting delivery requests from customers and vendors.": "Go online in order to start getting delivery requests from customers and vendors.",
   "Go Online": "Go Online",
-  "eMart Driver App ": "eMart Driver App ",
+  "Lelayastar Driver App ": "Lelayastar Driver App ",
 
   "collects location data of store and other places nearby to identify pickup and delivery locations even when the app is closed or not in use." : "collects location data of store and other places nearby to identify pickup and delivery locations even when the app is closed or not in use.",
 
@@ -413,7 +413,7 @@
   "Please wait!!" : "Please wait!!",
   "Please wait!! while completing Transaction" : "Please wait!! while completing Transaction",
   "Failed to initialise firebase!" : "Failed to initialise firebase!",
-  "eMart Driver" : "eMart Driver",
+  "Lelayastar Driver" : "Lelayastar Driver",
 
 
   "Unexpected Error" : "Unexpected Error",

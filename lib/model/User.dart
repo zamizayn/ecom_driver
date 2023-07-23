@@ -120,10 +120,10 @@ class User with ChangeNotifier {
       this.orderRequestData,
       this.ordercabRequestData,
       this.orderParcelRequestData,
-        this.sectionId})
+      this.sectionId})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.settings = settings ?? UserSettings(),
-        this.appIdentifier = 'eMart Driver ${Platform.operatingSystem}',
+        this.appIdentifier = 'Lelayastar Driver ${Platform.operatingSystem}',
         this.shippingAddress = shippingAddress ?? AddressModel(),
         this.userBankDetails = userBankDetails ?? UserBankDetails(),
         this.location = location ?? UserLocation(),
@@ -144,7 +144,9 @@ class User with ChangeNotifier {
         email: parsedJson['email'] ?? '',
         rideType: parsedJson['rideType'] ?? '',
         walletAmount: parsedJson['wallet_amount'] ?? 0.0,
-        userBankDetails: parsedJson.containsKey('userBankDetails') ? UserBankDetails.fromJson(parsedJson['userBankDetails']) : UserBankDetails(),
+        userBankDetails: parsedJson.containsKey('userBankDetails')
+            ? UserBankDetails.fromJson(parsedJson['userBankDetails'])
+            : UserBankDetails(),
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',
         geoFireData: parsedJson.containsKey('g')
@@ -161,7 +163,9 @@ class User with ChangeNotifier {
         vehicleId: parsedJson['vehicleId'] ?? '',
         carMakes: parsedJson['carMakes'] ?? '',
         lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
-        settings: parsedJson.containsKey('settings') ? UserSettings.fromJson(parsedJson['settings']) : UserSettings(),
+        settings: parsedJson.containsKey('settings')
+            ? UserSettings.fromJson(parsedJson['settings'])
+            : UserSettings(),
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
@@ -172,9 +176,15 @@ class User with ChangeNotifier {
         driverRate: parsedJson['driverRate'] ?? '0',
         carRate: parsedJson['carRate'] ?? '0',
         rentalBookingDate: parsedJson['rentalBookingDate'] ?? [],
-        carInfo: parsedJson.containsKey('carInfo') ? CarInfo.fromJson(parsedJson['carInfo']) : CarInfo(),
-        location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
-        shippingAddress: parsedJson.containsKey('shippingAddress') ? AddressModel.fromJson(parsedJson['shippingAddress']) : AddressModel(),
+        carInfo: parsedJson.containsKey('carInfo')
+            ? CarInfo.fromJson(parsedJson['carInfo'])
+            : CarInfo(),
+        location: parsedJson.containsKey('location')
+            ? UserLocation.fromJson(parsedJson['location'])
+            : UserLocation(),
+        shippingAddress: parsedJson.containsKey('shippingAddress')
+            ? AddressModel.fromJson(parsedJson['shippingAddress'])
+            : AddressModel(),
         role: parsedJson['role'] ?? '',
         carName: parsedJson['carName'] ?? '',
         carNumber: parsedJson['carNumber'] ?? '',
@@ -188,10 +198,17 @@ class User with ChangeNotifier {
         reviewsCount: parsedJson['reviewsCount'] ?? 0,
         reviewsSum: parsedJson['reviewsSum'] ?? 0,
         sectionId: parsedJson['sectionId'] ?? '',
-        orderRequestData: parsedJson.containsKey('orderRequestData') && parsedJson['orderRequestData'] != null ? OrderModel.fromJson(parsedJson['orderRequestData']) : null,
-        ordercabRequestData:
-            parsedJson.containsKey('ordercabRequestData') && parsedJson['ordercabRequestData'] != null ? CabOrderModel.fromJson(parsedJson['ordercabRequestData']) : null,
-        orderParcelRequestData: parsedJson.containsKey('orderParcelRequestData') && parsedJson['orderParcelRequestData'] != null
+        orderRequestData: parsedJson.containsKey('orderRequestData') &&
+                parsedJson['orderRequestData'] != null
+            ? OrderModel.fromJson(parsedJson['orderRequestData'])
+            : null,
+        ordercabRequestData: parsedJson.containsKey('ordercabRequestData') &&
+                parsedJson['ordercabRequestData'] != null
+            ? CabOrderModel.fromJson(parsedJson['ordercabRequestData'])
+            : null,
+        orderParcelRequestData: parsedJson
+                    .containsKey('orderParcelRequestData') &&
+                parsedJson['orderParcelRequestData'] != null
             ? ParcelOrderModel.fromJson(parsedJson['orderParcelRequestData'])
             : null);
   }
@@ -204,7 +221,9 @@ class User with ChangeNotifier {
         lastName: parsedJson['lastName'] ?? '',
         walletAmount: parsedJson['wallet_amount'] ?? 0.0,
         rotation: parsedJson['rotation'] ?? 0.0,
-        userBankDetails: parsedJson.containsKey('userBankDetails') ? UserBankDetails.fromJson(parsedJson['userBankDetails']) : UserBankDetails(),
+        userBankDetails: parsedJson.containsKey('userBankDetails')
+            ? UserBankDetails.fromJson(parsedJson['userBankDetails'])
+            : UserBankDetails(),
         isActive: parsedJson['isActive'] ?? false,
         active: parsedJson['active'] ?? true,
         serviceType: parsedJson['serviceType'] ?? '',
@@ -215,16 +234,23 @@ class User with ChangeNotifier {
                 geoPoint: GeoPoint(0.0, 0.0),
               ),
         coordinates: parsedJson['coordinates'] ?? GeoPoint(0.0, 0.0),
-        lastOnlineTimestamp: Timestamp.fromMillisecondsSinceEpoch(parsedJson['lastOnlineTimestamp']),
-        settings: parsedJson.containsKey('settings') ? UserSettings.fromJson(parsedJson['settings']) : UserSettings(),
+        lastOnlineTimestamp: Timestamp.fromMillisecondsSinceEpoch(
+            parsedJson['lastOnlineTimestamp']),
+        settings: parsedJson.containsKey('settings')
+            ? UserSettings.fromJson(parsedJson['settings'])
+            : UserSettings(),
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
         driverProofPictureURL: parsedJson['driverProofPictureURL'] ?? '',
         carProofPictureURL: parsedJson['carProofPictureURL'] ?? '',
         fcmToken: parsedJson['fcmToken'] ?? '',
-        location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
-        shippingAddress: parsedJson.containsKey('shippingAddress') ? AddressModel.fromJson(parsedJson['shippingAddress']) : AddressModel(),
+        location: parsedJson.containsKey('location')
+            ? UserLocation.fromJson(parsedJson['location'])
+            : UserLocation(),
+        shippingAddress: parsedJson.containsKey('shippingAddress')
+            ? AddressModel.fromJson(parsedJson['shippingAddress'])
+            : AddressModel(),
         role: parsedJson['role'] ?? '',
         carName: parsedJson['carName'] ?? '',
         carNumber: parsedJson['carNumber'] ?? '',
@@ -244,11 +270,20 @@ class User with ChangeNotifier {
         carRate: parsedJson['carRate'] ?? '',
         sectionId: parsedJson['sectionId'] ?? '',
         rentalBookingDate: parsedJson['rentalBookingDate'] ?? [],
-        carInfo: parsedJson.containsKey('carInfo') ? CarInfo.fromJson(parsedJson['carInfo']) : CarInfo(),
-        orderRequestData: parsedJson.containsKey('orderRequestData') && parsedJson['orderRequestData'] != null ? OrderModel.fromJson(parsedJson['orderRequestData']) : null,
-        ordercabRequestData:
-            parsedJson.containsKey('ordercabRequestData') && parsedJson['ordercabRequestData'] != null ? CabOrderModel.fromJson(parsedJson['ordercabRequestData']) : null,
-        orderParcelRequestData: parsedJson.containsKey('orderParcelRequestData') && parsedJson['orderParcelRequestData'] != null
+        carInfo: parsedJson.containsKey('carInfo')
+            ? CarInfo.fromJson(parsedJson['carInfo'])
+            : CarInfo(),
+        orderRequestData: parsedJson.containsKey('orderRequestData') &&
+                parsedJson['orderRequestData'] != null
+            ? OrderModel.fromJson(parsedJson['orderRequestData'])
+            : null,
+        ordercabRequestData: parsedJson.containsKey('ordercabRequestData') &&
+                parsedJson['ordercabRequestData'] != null
+            ? CabOrderModel.fromJson(parsedJson['ordercabRequestData'])
+            : null,
+        orderParcelRequestData: parsedJson
+                    .containsKey('orderParcelRequestData') &&
+                parsedJson['orderParcelRequestData'] != null
             ? ParcelOrderModel.fromJson(parsedJson['orderParcelRequestData'])
             : null);
   }
@@ -380,7 +415,11 @@ class UserSettings {
 
   bool promotions;
 
-  UserSettings({this.pushNewMessages = true, this.orderUpdates = true, this.newArrivals = true, this.promotions = true});
+  UserSettings(
+      {this.pushNewMessages = true,
+      this.orderUpdates = true,
+      this.newArrivals = true,
+      this.promotions = true});
 
   factory UserSettings.fromJson(Map<dynamic, dynamic> parsedJson) {
     return UserSettings(
@@ -432,7 +471,7 @@ class GeoFireData {
   factory GeoFireData.fromJson(Map<dynamic, dynamic> parsedJson) {
     return GeoFireData(
       geohash: parsedJson['geohash'] ?? '',
-      geoPoint: parsedJson['geopoint'] ?? GeoPoint(0.0,0.0),
+      geoPoint: parsedJson['geopoint'] ?? GeoPoint(0.0, 0.0),
     );
   }
 

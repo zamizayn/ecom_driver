@@ -29,7 +29,8 @@ class CabHomeScreen extends StatefulWidget {
   State<CabHomeScreen> createState() => _CabHomeScreenState();
 }
 
-class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProviderStateMixin {
+class _CabHomeScreenState extends State<CabHomeScreen>
+    with SingleTickerProviderStateMixin {
   final fireStoreUtils = FireStoreUtils();
 
   GoogleMapController? _mapController;
@@ -73,7 +74,6 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
   }
 
   updateDriverOrder() async {
-
     await FireStoreUtils().getDriverOrderSetting();
 
     Timestamp startTimestamp = Timestamp.now();
@@ -86,12 +86,14 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     print('-->startTime${startTimestamp.toDate()}');
     await FirebaseFirestore.instance
         .collection(RIDESORDER)
-        .where('status', whereIn: [ORDER_STATUS_PLACED, ORDER_STATUS_DRIVER_REJECTED])
+        .where('status',
+            whereIn: [ORDER_STATUS_PLACED, ORDER_STATUS_DRIVER_REJECTED])
         .where('createdAt', isGreaterThan: startTimestamp)
         .get()
         .then((value) async {
           print('---->${value.docs.length}');
-          await Future.forEach(value.docs, (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+          await Future.forEach(value.docs,
+              (QueryDocumentSnapshot<Map<String, dynamic>> element) {
             try {
               orders.add(CabOrderModel.fromJson(element.data()));
             } catch (e, s) {
@@ -104,7 +106,11 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
       CabOrderModel orderModel = element;
       print('---->${orderModel.id}');
       orderModel.trigger_delevery = Timestamp.now();
-      FirebaseFirestore.instance.collection(RIDESORDER).doc(element.id).set(orderModel.toJson(), SetOptions(merge: true)).then((order) {
+      FirebaseFirestore.instance
+          .collection(RIDESORDER)
+          .doc(element.id)
+          .set(orderModel.toJson(), SetOptions(merge: true))
+          .then((order) {
         print('Done.');
       });
     });
@@ -122,7 +128,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     print('---->$enableOTPTripStart');
     print('======>$driverOrderAcceptRejectDuration');
 
-    _animationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 700));
+    _animationController = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 700));
     _animationController!.repeat(reverse: true);
   }
 
@@ -171,7 +178,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                   ),
                   initialCameraPosition: CameraPosition(
                     zoom: 15,
-                    target: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+                    target: LatLng(_driverModel!.location.latitude,
+                        _driverModel!.location.longitude),
                   ),
                 ),
                 Visibility(
@@ -182,18 +190,24 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                       color: Colors.black,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("You have to minimum $symbol ${double.parse(minimumDepositToRideAccept.toString()).toStringAsFixed(decimal)} wallet amount to receiving Order",
-                            style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                        child: Text(
+                            "You have to minimum $symbol ${double.parse(minimumDepositToRideAccept.toString()).toStringAsFixed(decimal)} wallet amount to receiving Order",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center),
                       ),
                     ),
                   ),
                 ),
-                if (_driverModel!.inProgressOrderID != null && currentOrder != null) buildOrderActionsCard()
+                if (_driverModel!.inProgressOrderID != null &&
+                    currentOrder != null)
+                  buildOrderActionsCard()
               ],
             )
           : Center(
               child: showEmptyState("You are offline".tr(),
-                  description: 'Go online in order to start getting delivery requests from customers and vendors.'.tr(),
+                  description:
+                      'Go online in order to start getting delivery requests from customers and vendors.'
+                          .tr(),
                   isDarkMode: isDarkMode(context),
                   buttonTitle: 'Go Online'.tr(),
                   action: () => showDialog(
@@ -201,10 +215,13 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                         builder: (ctx) => AlertDialog(
                           // title: Text("Alert Dialog Box"),
                           content: Text.rich(TextSpan(children: [
-                            TextSpan(text: "eMart Driver App ".tr(), style: TextStyle(fontWeight: FontWeight.bold)),
                             TextSpan(
-                                text: "collects location data of store and other places nearby to identify pickup and delivery locations even when the app is closed or not in use."
-                                    .tr())
+                                text: "Lelayastar Driver App ".tr(),
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text:
+                                    "collects location data of store and other places nearby to identify pickup and delivery locations even when the app is closed or not in use."
+                                        .tr())
                           ])),
                           actions: <Widget>[
                             TextButton(
@@ -271,11 +288,13 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                       Center(
                         child: Text(
                           'New Rides!'.tr(),
-                          style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinssb", letterSpacing: 0.5),
+                          style: TextStyle(
+                              color: Color(0xffFFFFFF),
+                              fontFamily: "Poppinssb",
+                              letterSpacing: 0.5),
                         ),
                       ),
                       SizedBox(height: 5),
-
                       Row(
                         children: [
                           Expanded(
@@ -285,17 +304,22 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               children: [
                                 Text(
                                   "Trip Distance".tr(),
-                                  style: TextStyle(color: Color(0xffADADAD), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                  style: TextStyle(
+                                      color: Color(0xffADADAD),
+                                      fontFamily: "Poppinsr",
+                                      letterSpacing: 0.5),
                                 ),
                                 Text(
                                   // '0',
                                   "${user.ordercabRequestData!.distance.toString()} km",
-                                  style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                  style: TextStyle(
+                                      color: Color(0xffFFFFFF),
+                                      fontFamily: "Poppinsm",
+                                      letterSpacing: 0.5),
                                 ),
                               ],
                             ),
                           ),
-
                           Expanded(
                             child: Expanded(
                               child: Column(
@@ -304,12 +328,18 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                                 children: [
                                   Text(
                                     "Expected Earning".tr(),
-                                    style: TextStyle(color: Color(0xffADADAD), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                    style: TextStyle(
+                                        color: Color(0xffADADAD),
+                                        fontFamily: "Poppinsr",
+                                        letterSpacing: 0.5),
                                   ),
                                   Text(
                                     // '0',
                                     "$symbol ${user.ordercabRequestData!.subTotal.toString()}",
-                                    style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                    style: TextStyle(
+                                        color: Color(0xffFFFFFF),
+                                        fontFamily: "Poppinsm",
+                                        letterSpacing: 0.5),
                                   ),
                                 ],
                               ),
@@ -317,12 +347,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                           ),
                         ],
                       ),
-
                       SizedBox(height: 5),
                       Card(
                         color: Color(0xffFFFFFF),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14.0, horizontal: 10),
                           child: Row(
                             children: [
                               Image.asset(
@@ -339,7 +369,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                                       "${user.ordercabRequestData!.sourceLocationName} ",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontFamily: "Poppinsr",
+                                          letterSpacing: 0.5),
                                     ),
                                   ),
                                   SizedBox(height: 22),
@@ -349,7 +382,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                                       "${user.ordercabRequestData!.destinationLocationName} ",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                      style: TextStyle(
+                                          color: Color(0xff333333),
+                                          fontFamily: "Poppinsr",
+                                          letterSpacing: 0.5),
                                     ),
                                   ),
                                 ],
@@ -367,7 +403,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             width: MediaQuery.of(context).size.width / 2.5,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 12),
                                 backgroundColor: Color(COLOR_PRIMARY),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
@@ -377,40 +414,53 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               ),
                               child: Text(
                                 'Reject'.tr(),
-                                style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                style: TextStyle(
+                                    color: Color(0xffFFFFFF),
+                                    fontFamily: "Poppinsm",
+                                    letterSpacing: 0.5),
                               ),
                               onPressed: () async {
                                 audioPlayer.stop();
 
-                                await FireStoreUtils.getCabOrderByOrderId(currentCabOrderID).then((value) async {
+                                await FireStoreUtils.getCabOrderByOrderId(
+                                        currentCabOrderID)
+                                    .then((value) async {
                                   print("----->${value!.status}");
                                   if (value.status == ORDER_STATUS_REJECTED) {
                                     print("----->11111s}");
                                     Navigator.pop(context);
 
-                                    MyAppState.currentUser!.ordercabRequestData = null;
-                                    MyAppState.currentUser!.inProgressOrderID = null;
+                                    MyAppState.currentUser!
+                                        .ordercabRequestData = null;
+                                    MyAppState.currentUser!.inProgressOrderID =
+                                        null;
 
-                                    await FireStoreUtils.updateCurrentUser(MyAppState.currentUser!);
+                                    await FireStoreUtils.updateCurrentUser(
+                                        MyAppState.currentUser!);
                                     final snack = SnackBar(
                                       content: Text(
-                                        "This Ride is already reject by customer.".tr(),
+                                        "This Ride is already reject by customer."
+                                            .tr(),
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       duration: Duration(seconds: 2),
                                       backgroundColor: Colors.black,
                                     );
-                                    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(snack);
+                                    ScaffoldMessenger.of(
+                                            _scaffoldKey.currentContext!)
+                                        .showSnackBar(snack);
                                     setState(() {});
                                   } else {
                                     Navigator.pop(context);
-                                    showProgress(context, "Rejecting Ride...".tr(), false);
+                                    showProgress(context,
+                                        "Rejecting Ride...".tr(), false);
                                     try {
                                       await rejectOrder(user);
                                       hideProgress();
                                     } catch (e) {
                                       hideProgress();
-                                      print('HomeScreenState.showDriverBottomSheet $e');
+                                      print(
+                                          'HomeScreenState.showDriverBottomSheet $e');
                                     }
                                   }
                                 });
@@ -422,7 +472,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             width: MediaQuery.of(context).size.width / 2.5,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 6, horizontal: 12),
                                   backgroundColor: Color(COLOR_PRIMARY),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
@@ -432,46 +483,58 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                                 ),
                                 child: Text(
                                   'Accept'.tr(),
-                                  style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                  style: TextStyle(
+                                      color: Color(0xffFFFFFF),
+                                      fontFamily: "Poppinsm",
+                                      letterSpacing: 0.5),
                                 ),
                                 onPressed: () async {
                                   audioPlayer.stop();
-                                  await FireStoreUtils.getCabOrderByOrderId(currentCabOrderID).then((value) async {
+                                  await FireStoreUtils.getCabOrderByOrderId(
+                                          currentCabOrderID)
+                                      .then((value) async {
                                     print("----->${value!.status}");
                                     if (value.status == ORDER_STATUS_REJECTED) {
                                       print("----->11111s}");
                                       Navigator.pop(context);
 
-                                      MyAppState.currentUser!.ordercabRequestData = null;
-                                      MyAppState.currentUser!.inProgressOrderID = null;
+                                      MyAppState.currentUser!
+                                          .ordercabRequestData = null;
+                                      MyAppState.currentUser!
+                                          .inProgressOrderID = null;
 
-                                      await FireStoreUtils.updateCurrentUser(MyAppState.currentUser!);
+                                      await FireStoreUtils.updateCurrentUser(
+                                          MyAppState.currentUser!);
                                       final snack = SnackBar(
                                         content: Text(
-                                          "This Ride is reject by customer.".tr(),
+                                          "This Ride is reject by customer."
+                                              .tr(),
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         duration: Duration(seconds: 2),
                                         backgroundColor: Colors.black,
                                       );
-                                      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(snack);
+                                      ScaffoldMessenger.of(
+                                              _scaffoldKey.currentContext!)
+                                          .showSnackBar(snack);
                                       setState(() {});
                                     } else {
                                       print("----->222222}");
                                       Navigator.pop(context);
-                                      showProgress(context, 'Accepting Ride....'.tr(), false);
+                                      showProgress(context,
+                                          'Accepting Ride....'.tr(), false);
                                       try {
                                         await acceptOrder(user);
-                                        updateProgress('Finding the best route...'.tr());
+                                        updateProgress(
+                                            'Finding the best route...'.tr());
                                         hideProgress();
                                         setState(() {});
                                       } catch (e) {
                                         hideProgress();
-                                        print('HomeScreenState.showDriverBottomSheet $e');
+                                        print(
+                                            'HomeScreenState.showDriverBottomSheet $e');
                                       }
                                     }
-
-
                                   });
                                 }),
                           ),
@@ -500,9 +563,14 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     }
 
     Position? locationData = await getCurrentLocation();
-    user.location = UserLocation(latitude: locationData.latitude, longitude: locationData.longitude);
+    user.location = UserLocation(
+        latitude: locationData.latitude, longitude: locationData.longitude);
     user.geoFireData = GeoFireData(
-        geohash: GeoFlutterFire().point(latitude: locationData.latitude, longitude: locationData.longitude).hash,
+        geohash: GeoFlutterFire()
+            .point(
+                latitude: locationData.latitude,
+                longitude: locationData.longitude)
+            .hash,
         geoPoint: GeoPoint(locationData.latitude, locationData.longitude));
     orderModel.driver = user;
     await FireStoreUtils.updateCabOrder(orderModel);
@@ -515,7 +583,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     await getCurrentOrder();
 
     await FireStoreUtils.sendFcmMessageSingle(
-        "Cab Driver Assigned.".tr(), user.firstName + " " + user.lastName + " will Pickup as soon as possible.".tr(), orderModel.author.fcmToken);
+        "Cab Driver Assigned.".tr(),
+        user.firstName +
+            " " +
+            user.lastName +
+            " will Pickup as soon as possible.".tr(),
+        orderModel.author.fcmToken);
 
     if (_timer != null) {
       setState(() {
@@ -549,8 +622,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
-          PointLatLng(currentOrder!.sourceLocation.latitude, currentOrder!.sourceLocation.longitude),
+          PointLatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
+          PointLatLng(currentOrder!.sourceLocation.latitude,
+              currentOrder!.sourceLocation.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -565,7 +640,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
           _markers['Driver'] = Marker(
               markerId: const MarkerId('Driver'),
               infoWindow: const InfoWindow(title: "Driver"),
-              position: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+              position: LatLng(_driverModel!.location.latitude,
+                  _driverModel!.location.longitude),
               icon: taxiIcon!,
               rotation: double.parse(_driverModel!.rotation.toString()));
         });
@@ -574,7 +650,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
         _markers['Departure'] = Marker(
           markerId: const MarkerId('Departure'),
           infoWindow: const InfoWindow(title: "Departure"),
-          position: LatLng(currentOrder!.sourceLocation.latitude, currentOrder!.sourceLocation.longitude),
+          position: LatLng(currentOrder!.sourceLocation.latitude,
+              currentOrder!.sourceLocation.longitude),
           icon: departureIcon!,
         );
 
@@ -582,17 +659,21 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
         _markers['Destination'] = Marker(
           markerId: const MarkerId('Destination'),
           infoWindow: const InfoWindow(title: "Destination"),
-          position: LatLng(currentOrder!.destinationLocation.latitude, currentOrder!.destinationLocation.longitude),
+          position: LatLng(currentOrder!.destinationLocation.latitude,
+              currentOrder!.destinationLocation.longitude),
           icon: destinationIcon!,
         );
         addPolyLine(polylineCoordinates);
-      } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT || currentOrder!.status == ORDER_REACHED_DESTINATION) {
+      } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT ||
+          currentOrder!.status == ORDER_REACHED_DESTINATION) {
         List<LatLng> polylineCoordinates = [];
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
-          PointLatLng(currentOrder!.destinationLocation.latitude, currentOrder!.destinationLocation.longitude),
+          PointLatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
+          PointLatLng(currentOrder!.destinationLocation.latitude,
+              currentOrder!.destinationLocation.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -606,7 +687,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
         _markers['Driver'] = Marker(
           markerId: const MarkerId('Driver'),
           infoWindow: const InfoWindow(title: "Driver"),
-          position: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+          position: LatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
           rotation: double.parse(_driverModel!.rotation.toString()),
           icon: taxiIcon!,
         );
@@ -615,14 +697,16 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
         _markers['Departure'] = Marker(
           markerId: const MarkerId('Departure'),
           infoWindow: const InfoWindow(title: "Departure"),
-          position: LatLng(currentOrder!.sourceLocation.latitude, currentOrder!.sourceLocation.longitude),
+          position: LatLng(currentOrder!.sourceLocation.latitude,
+              currentOrder!.sourceLocation.longitude),
           icon: departureIcon!,
         );
         _markers.remove("Destination");
         _markers['Destination'] = Marker(
           markerId: const MarkerId('Destination'),
           infoWindow: const InfoWindow(title: "Destination"),
-          position: LatLng(currentOrder!.destinationLocation.latitude, currentOrder!.destinationLocation.longitude),
+          position: LatLng(currentOrder!.destinationLocation.latitude,
+              currentOrder!.destinationLocation.longitude),
           icon: destinationIcon!,
         );
         addPolyLine(polylineCoordinates);
@@ -631,8 +715,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(currentOrder!.sourceLocation.latitude, currentOrder!.sourceLocation.longitude),
-          PointLatLng(currentOrder!.destinationLocation.latitude, currentOrder!.destinationLocation.longitude),
+          PointLatLng(currentOrder!.sourceLocation.latitude,
+              currentOrder!.sourceLocation.longitude),
+          PointLatLng(currentOrder!.destinationLocation.latitude,
+              currentOrder!.destinationLocation.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -645,14 +731,16 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
         _markers['Departure'] = Marker(
           markerId: const MarkerId('Departure'),
           infoWindow: const InfoWindow(title: "Departure"),
-          position: LatLng(currentOrder!.sourceLocation.latitude, currentOrder!.sourceLocation.longitude),
+          position: LatLng(currentOrder!.sourceLocation.latitude,
+              currentOrder!.sourceLocation.longitude),
           icon: departureIcon!,
         );
         _markers.remove("Destination");
         _markers['Destination'] = Marker(
           markerId: const MarkerId('Destination'),
           infoWindow: const InfoWindow(title: "Destination"),
-          position: LatLng(currentOrder!.destinationLocation.latitude, currentOrder!.destinationLocation.longitude),
+          position: LatLng(currentOrder!.destinationLocation.latitude,
+              currentOrder!.destinationLocation.longitude),
           icon: destinationIcon!,
         );
         addPolyLine(polylineCoordinates);
@@ -669,12 +757,17 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
 
     LatLngBounds bounds;
 
-    if (source.latitude > destination.latitude && source.longitude > destination.longitude) {
+    if (source.latitude > destination.latitude &&
+        source.longitude > destination.longitude) {
       bounds = LatLngBounds(southwest: destination, northeast: source);
     } else if (source.longitude > destination.longitude) {
-      bounds = LatLngBounds(southwest: LatLng(source.latitude, destination.longitude), northeast: LatLng(destination.latitude, source.longitude));
+      bounds = LatLngBounds(
+          southwest: LatLng(source.latitude, destination.longitude),
+          northeast: LatLng(destination.latitude, source.longitude));
     } else if (source.latitude > destination.latitude) {
-      bounds = LatLngBounds(southwest: LatLng(destination.latitude, source.longitude), northeast: LatLng(source.latitude, destination.longitude));
+      bounds = LatLngBounds(
+          southwest: LatLng(destination.latitude, source.longitude),
+          northeast: LatLng(source.latitude, destination.longitude));
     } else {
       bounds = LatLngBounds(southwest: source, northeast: destination);
     }
@@ -684,7 +777,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     return checkCameraLocation(cameraUpdate, mapController);
   }
 
-  Future<void> checkCameraLocation(CameraUpdate cameraUpdate, GoogleMapController mapController) async {
+  Future<void> checkCameraLocation(
+      CameraUpdate cameraUpdate, GoogleMapController mapController) async {
     mapController.animateCamera(cameraUpdate);
     LatLngBounds l1 = await mapController.getVisibleRegion();
     LatLngBounds l2 = await mapController.getVisibleRegion();
@@ -704,7 +798,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
       geodesic: true,
     );
     polyLines[id] = polyline;
-    updateCameraLocation(polylineCoordinates.first, polylineCoordinates.last, _mapController);
+    updateCameraLocation(
+        polylineCoordinates.first, polylineCoordinates.last, _mapController);
     setState(() {});
   }
 
@@ -715,7 +810,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
   User? _driverModel = User();
 
   getCurrentOrder() async {
-    ordersFuture = FireStoreUtils().getCabOrderByID(MyAppState.currentUser!.inProgressOrderID.toString());
+    ordersFuture = FireStoreUtils()
+        .getCabOrderByID(MyAppState.currentUser!.inProgressOrderID.toString());
     ordersFuture.listen((event) {
       print("------->${event!.status}");
       setState(() {
@@ -778,9 +874,14 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
       setState(() {});
     });
 
-    await FireStoreUtils.firestore.collection(Setting).doc("DriverNearBy").get().then((value) {
+    await FireStoreUtils.firestore
+        .collection(Setting)
+        .doc("DriverNearBy")
+        .get()
+        .then((value) {
       setState(() {
-        minimumDepositToRideAccept = value.data()!['minimumDepositToRideAccept'];
+        minimumDepositToRideAccept =
+            value.data()!['minimumDepositToRideAccept'];
       });
     });
   }
@@ -788,8 +889,11 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
   Widget buildOrderActionsCard({pedding = 10, width = 60}) {
     bool isPickedUp = false;
     String? buttonText;
-    if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
-      buttonText = enableOTPTripStart ? "Verify Code to customer".tr() : "Pickup Customer".tr();
+    if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+        currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
+      buttonText = enableOTPTripStart
+          ? "Verify Code to customer".tr()
+          : "Pickup Customer".tr();
       isPickedUp = true;
     } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
       // buttonText = 'Complete Pick Up'.tr();
@@ -804,7 +908,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
       padding: EdgeInsets.symmetric(vertical: 15),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(18)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8), topRight: Radius.circular(18)),
         color: isDarkMode(context) ? Color(0xff000000) : Color(0xffFFFFFF),
       ),
       child: SingleChildScrollView(
@@ -812,24 +917,38 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED)
+            if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+                currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED)
               Column(
                 children: [
                   ListTile(
                     tileColor: Color(0xffF1F4F8),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     title: Row(
                       children: [
                         Text(
                           "ORDER ID ".tr(),
-                          style: TextStyle(fontSize: 14, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff555555), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: isDarkMode(context)
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff555555),
+                              fontFamily: "Poppinsr",
+                              letterSpacing: 0.5),
                         ),
                         Expanded(
                           child: Text(
                             '${currentOrder!.id}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: isDarkMode(context)
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff000000),
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                       ],
@@ -838,7 +957,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         '${currentOrder!.author.firstName} ${currentOrder!.author.lastName}',
-                        style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff333333),
+                            fontFamily: "Poppinsm",
+                            letterSpacing: 0.5),
                       ),
                     ),
                     trailing: Column(
@@ -868,7 +992,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             // ),
                             label: Text(
                               "Message".tr(),
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
@@ -884,7 +1011,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                       '${currentOrder!.author.shippingAddress.name}',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: isDarkMode(context)
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff000000),
+                          fontFamily: "Poppinsm",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Row(
                       children: [
@@ -892,7 +1024,11 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                           padding: const EdgeInsets.only(top: 4.0),
                           child: Text(
                             'ORDER ID '.tr(),
-                            style: TextStyle(color: Color(0xff555555), fontSize: 12, fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xff555555),
+                                fontSize: 12,
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                         Padding(
@@ -903,7 +1039,13 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               '${currentOrder!.id} ',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 12, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff000000),
+                                  fontFamily: "Poppinsr",
+                                  letterSpacing: 0.5),
                             ),
                           ),
                         ),
@@ -924,7 +1066,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               backgroundColor: Color(0xffFFFFFF),
                             ),
                             onPressed: () {
-                              UrlLauncher.launch("tel://${currentOrder!.author.phoneNumber}");
+                              UrlLauncher.launch(
+                                  "tel://${currentOrder!.author.phoneNumber}");
                             },
                             icon: Image.asset(
                               'assets/images/call3x.png',
@@ -933,7 +1076,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             ),
                             label: Text(
                               "CALL".tr(),
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
@@ -954,7 +1100,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                       '${currentOrder!.author.shippingAddress.name}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: isDarkMode(context)
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff000000),
+                          fontFamily: "Poppinsm",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Row(
                       children: [
@@ -962,7 +1113,11 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                           padding: const EdgeInsets.only(top: 4.0),
                           child: Text(
                             "ORDER ID ".tr(),
-                            style: TextStyle(color: Color(0xff555555), fontSize: 12, fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xff555555),
+                                fontSize: 12,
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                         Padding(
@@ -973,7 +1128,13 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               '${currentOrder!.id} ',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontSize: 12, fontFamily: "Poppinsr", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff000000),
+                                  fontSize: 12,
+                                  fontFamily: "Poppinsr",
+                                  letterSpacing: 0.5),
                             ),
                           ),
                         ),
@@ -994,7 +1155,8 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                               backgroundColor: Color(0xffFFFFFF),
                             ),
                             onPressed: () {
-                              UrlLauncher.launch("tel://${currentOrder!.author.phoneNumber}");
+                              UrlLauncher.launch(
+                                  "tel://${currentOrder!.author.phoneNumber}");
                             },
                             icon: Image.asset(
                               'assets/images/call3x.png',
@@ -1003,7 +1165,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             ),
                             label: Text(
                               "CALL".tr(),
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
@@ -1017,7 +1182,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                     ),
                     title: Text(
                       'Destination'.tr(),
-                      style: TextStyle(color: Color(0xff9091A4), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: Color(0xff9091A4),
+                          fontFamily: "Poppinsr",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -1025,7 +1193,12 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                         '${currentOrder!.destinationLocationName}',
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff333333),
+                            fontFamily: "Poppinsr",
+                            letterSpacing: 0.5),
                       ),
                     ),
                     trailing: Column(
@@ -1055,14 +1228,19 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             // ),
                             label: Text(
                               "Message".tr(),
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
                   ),
                 ],
               ),
-            if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT || currentOrder!.status == ORDER_REACHED_DESTINATION) SizedBox(height: 25),
+            if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT ||
+                currentOrder!.status == ORDER_REACHED_DESTINATION)
+              SizedBox(height: 25),
             isPickedUp
                 ? FadeTransition(
                     opacity: _animationController!,
@@ -1082,11 +1260,15 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                             backgroundColor: Color(COLOR_PRIMARY),
                           ),
                           onPressed: () async {
-                            if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
+                            if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+                                currentOrder!.status ==
+                                    ORDER_STATUS_DRIVER_ACCEPTED) {
                               completePickUp();
-                            } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
+                            } else if (currentOrder!.status ==
+                                ORDER_STATUS_IN_TRANSIT) {
                               reachedDestination();
-                            } else if (currentOrder!.status == ORDER_REACHED_DESTINATION) {
+                            } else if (currentOrder!.status ==
+                                ORDER_REACHED_DESTINATION) {
                               if (currentOrder!.paymentStatus == true) {
                                 completeOrder();
                               } else {
@@ -1098,13 +1280,17 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                                   duration: Duration(seconds: 2),
                                   backgroundColor: Colors.black,
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(snack);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snack);
                               }
                             }
                           },
                           child: Text(
                             buttonText ?? "",
-                            style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xffFFFFFF),
+                                fontFamily: "Poppinsm",
+                                letterSpacing: 0.5),
                           ),
                         ),
                       ),
@@ -1126,11 +1312,15 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                           backgroundColor: Color(COLOR_PRIMARY),
                         ),
                         onPressed: () async {
-                          if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
+                          if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+                              currentOrder!.status ==
+                                  ORDER_STATUS_DRIVER_ACCEPTED) {
                             completePickUp();
-                          } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
+                          } else if (currentOrder!.status ==
+                              ORDER_STATUS_IN_TRANSIT) {
                             reachedDestination();
-                          } else if (currentOrder!.status == ORDER_REACHED_DESTINATION) {
+                          } else if (currentOrder!.status ==
+                              ORDER_REACHED_DESTINATION) {
                             if (currentOrder!.paymentStatus == true) {
                               completeOrder();
                             } else {
@@ -1148,7 +1338,10 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
                         },
                         child: Text(
                           buttonText ?? "",
-                          style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                          style: TextStyle(
+                              color: Color(0xffFFFFFF),
+                              fontFamily: "Poppinsm",
+                              letterSpacing: 0.5),
                         ),
                       ),
                     ),
@@ -1201,22 +1394,38 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     updateCabWalletAmount(currentOrder!);
     await FireStoreUtils.updateCabOrder(currentOrder!);
     Position? locationData = await getCurrentLocation();
-    await FireStoreUtils.sendFcmMessage("Order Complete".tr(), "Our Delivery agent delivered order.".tr(), currentOrder!.author.fcmToken, null);
-    await FireStoreUtils.getFirestOrderOrNOtCabService(currentOrder!).then((value) async {
+    await FireStoreUtils.sendFcmMessage(
+        "Order Complete".tr(),
+        "Our Delivery agent delivered order.".tr(),
+        currentOrder!.author.fcmToken,
+        null);
+    await FireStoreUtils.getFirestOrderOrNOtCabService(currentOrder!)
+        .then((value) async {
       if (value == true) {
         await FireStoreUtils.updateReferralAmountCabService(currentOrder!);
       }
     });
-    await FireStoreUtils.sendFcmMessage("Order Complete".tr(), "Our Delivery agent delivered order.".tr(), currentOrder!.author.fcmToken, null);
-    await FireStoreUtils.getCabFirstOrderOrNOt(currentOrder!).then((value) async {
+    await FireStoreUtils.sendFcmMessage(
+        "Order Complete".tr(),
+        "Our Delivery agent delivered order.".tr(),
+        currentOrder!.author.fcmToken,
+        null);
+    await FireStoreUtils.getCabFirstOrderOrNOt(currentOrder!)
+        .then((value) async {
       if (value == true) {
         await FireStoreUtils.updateCabReferralAmount(currentOrder!);
       }
     });
     _driverModel!.inProgressOrderID = null;
-    _driverModel!.location = UserLocation(latitude: locationData.latitude, longitude: locationData.longitude);
-    _driverModel!.geoFireData =
-        GeoFireData(geohash: GeoFlutterFire().point(latitude: locationData.latitude, longitude: locationData.longitude).hash, geoPoint: GeoPoint(locationData.latitude, locationData.longitude));
+    _driverModel!.location = UserLocation(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    _driverModel!.geoFireData = GeoFireData(
+        geohash: GeoFlutterFire()
+            .point(
+                latitude: locationData.latitude,
+                longitude: locationData.longitude)
+            .hash,
+        geoPoint: GeoPoint(locationData.latitude, locationData.longitude));
 
     await FireStoreUtils.updateCurrentUser(_driverModel!);
     hideProgress();
@@ -1224,7 +1433,9 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     polyLines.clear();
     _mapController?.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(locationData.latitude, locationData.longitude), zoom: 15),
+        CameraPosition(
+            target: LatLng(locationData.latitude, locationData.longitude),
+            zoom: 15),
       ),
     );
 
@@ -1234,9 +1445,11 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
   openChatWithCustomer() async {
     await showProgress(context, "Please wait".tr(), false);
 
-    User? customer = await FireStoreUtils.getCurrentUser(currentOrder!.authorID);
+    User? customer =
+        await FireStoreUtils.getCurrentUser(currentOrder!.authorID);
     print(currentOrder!.driverID);
-    User? driver = await FireStoreUtils.getCurrentUser(currentOrder!.driverID.toString());
+    User? driver =
+        await FireStoreUtils.getCurrentUser(currentOrder!.driverID.toString());
 
     hideProgress();
     push(
@@ -1259,9 +1472,14 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
     Position locationData = await getCurrentLocation();
     print('HomeScreenState.goOnline');
     user.isActive = true;
-    user.location = UserLocation(latitude: locationData.latitude, longitude: locationData.longitude);
+    user.location = UserLocation(
+        latitude: locationData.latitude, longitude: locationData.longitude);
     user.geoFireData = GeoFireData(
-        geohash: GeoFlutterFire().point(latitude: locationData.latitude, longitude: locationData.longitude).hash,
+        geohash: GeoFlutterFire()
+            .point(
+                latitude: locationData.latitude,
+                longitude: locationData.longitude)
+            .hash,
         geoPoint: GeoPoint(locationData.latitude, locationData.longitude));
     MyAppState.currentUser = user;
     await FireStoreUtils.updateCurrentUser(user);
@@ -1273,15 +1491,21 @@ class _CabHomeScreenState extends State<CabHomeScreen> with SingleTickerProvider
   bool isPlaying = false;
 
   playSound() async {
-    final path = await rootBundle.load("assets/audio/mixkit-happy-bells-notification-937.mp3");
+    final path = await rootBundle
+        .load("assets/audio/mixkit-happy-bells-notification-937.mp3");
     audioPlayer.setSourceBytes(path.buffer.asUint8List());
     audioPlayer.setReleaseMode(ReleaseMode.loop);
     //audioPlayer.setSourceUrl(url);
     audioPlayer.play(BytesSource(path.buffer.asUint8List()),
         volume: 15,
         ctx: AudioContext(
-            android:
-                AudioContextAndroid(contentType: AndroidContentType.music, isSpeakerphoneOn: true, stayAwake: true, usageType: AndroidUsageType.alarm, audioFocus: AndroidAudioFocus.gainTransient),
-            iOS: AudioContextIOS(category: AVAudioSessionCategory.playback, options: [])));
+            android: AudioContextAndroid(
+                contentType: AndroidContentType.music,
+                isSpeakerphoneOn: true,
+                stayAwake: true,
+                usageType: AndroidUsageType.alarm,
+                audioFocus: AndroidAudioFocus.gainTransient),
+            iOS: AudioContextIOS(
+                category: AVAudioSessionCategory.playback, options: [])));
   }
 }

@@ -24,11 +24,15 @@ class AuthScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 8),
+            padding:
+                const EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 8),
             child: Text(
-              'Welcome to eMart Driver'.tr(),
+              'Welcome to Lelayastar Driver'.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Color(COLOR_PRIMARY), fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Color(COLOR_PRIMARY),
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -56,7 +60,10 @@ class AuthScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Log In'.tr(),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
                 onPressed: () {
                   push(context, LoginScreen());
@@ -65,7 +72,8 @@ class AuthScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 20, bottom: 20),
+            padding: const EdgeInsets.only(
+                right: 40.0, left: 40.0, top: 20, bottom: 20),
             child: ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: TextButton(
@@ -80,7 +88,10 @@ class AuthScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Sign Up'.tr(),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(COLOR_PRIMARY)),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(COLOR_PRIMARY)),
                 ),
                 onPressed: () {
                   push(context, SignUpScreen());
