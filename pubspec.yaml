@@ -67,22 +67,6 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 
-flutter_icons:
-  android: "ic_launcher"
-  ios: true
-  image_path: "assets/images/app_logo.png"
-  remove_alpha_ios: true
-
-flutter_native_splash:
-  color: "#ffffff"
-  image: assets/images/app_logo.png
-  image_dark: assets/images/app_logo.png
-
-  android_12:
-    image: assets/images/app_logo.png
-    image_dark: assets/images/app_logo.png
-
-  web: false
 
 
 flutter:

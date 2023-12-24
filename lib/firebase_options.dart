@@ -50,12 +50,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBeUPzNNcwnSNU880UmPSldYpM08PfUY-c',
-    appId: '1:841077018919:android:cbf4fbbff3574cc5b5d902',
-    messagingSenderId: '841077018919',
-    projectId: 'emart-8d99f',
-    databaseURL: 'https://emart-8d99f-default-rtdb.firebaseio.com',
-    storageBucket: 'emart-8d99f.appspot.com',
+    apiKey: 'AIzaSyA5IrJAZLKR67P8NQLcBMbum-MEsN9s00U',
+    appId: '1:802498230927:android:fbe461949dbbc86a85cefa',
+    messagingSenderId: '802498230927',
+    projectId: 'emart-e2632',
+    storageBucket: 'emart-e2632.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
